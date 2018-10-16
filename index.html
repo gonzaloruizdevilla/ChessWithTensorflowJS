@@ -1,0 +1,107 @@
+<html>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"> </script>
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.13.0"> </script>
+        <style>
+            .train_wrapper {
+                display: grid;
+                grid-template-columns: 600px 410px;
+                grid-gap: 10px;
+                background-color: #fff;
+                color: #444;
+            }
+            .train_params {
+                display: grid;
+                grid-template-columns: 200px 200px;
+                grid-gap: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>TensorFlow.js Chess Policy</h1>
+        <script type="text/javascript">
+            const BATCH_SIZE = 50
+            const IMAGE_SIZE = 8
+            const FEATURE_PLANES = 8
+            const LABEL_SIZE = 6100
+            const FILTERS = 128
+            const HIDDEN = 512;
+            //NUM_STEPS = 150001
+            const NUM_STEPS = 10;
+            const LEARNING_RATE = 0.05;
+        </script>
+        
+        <hr>
+        <div style="display: grid; grid-template-columns: 600px 410px; grid-gap: 10px;">
+            <div>
+                <h3>Save model</h3>
+                <input id="save_model_name" value="chess-model-1"><button id="saveModel()">Save model</button><br>
+            </div>
+            <div>
+                <h3>Load model</h3>
+                Model JSON:<input name="json-upload" type="file" /><br>
+                Model Weights:<input name="weights-upload" type="file" /><br>
+                <button id="loadModel()">Load model</button><br>
+            </div>
+        </div>
+        <hr>
+        <button onclick="train()" style="font-size:150%; width:600px; text-align:center;">Train</button><br>
+        <div class="train_wrapper">
+            <div class="box">
+                <div style="width:600px; height:300px">
+                    <canvas  id="train_canvas"></canvas>
+                </div>
+                <textarea style="width:600px; height:200px; font-family: courier" id="train_output"></textarea>
+            </div>
+            <div class="box">
+
+                <h3>Train status</h3>
+                <div id="train_status">Waiting</div>
+                <div>
+                    <button onclick="pauseTraining()">Pause</button>
+                    <button onclick="continueTraining()">Continue</button>
+                </div>
+                <h3>Train config</h3>
+                <div class="train_params">
+                    <div>
+                        Batch size: 
+                    </div>
+                    <div>
+                        <input type="text" id="batch_size" value="50"><br>
+                    </div>
+                    <div>
+                        EPOCHS:
+                    </div>
+                    <div> 
+                        <input type="text" id="epochs" value="20"><br>
+                    </div>
+                    <div>
+                        Training examples:
+                    </div>
+                    <div>
+                        <input type="text" id="examples" value="2000"><br>
+                    </div>
+                    <div>
+                        Validation examples:
+                    </div>
+                    <div>
+                        <input type="text" id="validation_examples" value="100"><br>
+                    </div>
+                    <div>
+                        Record loss every #batches:
+                    </div>
+                    <div>
+                        <input type="text" id="record_loss" value="10"><br>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <script type="text/javascript" src="ui.js"></script>
+        <script type="text/javascript" src="labels.js"></script>
+        <script type="text/javascript" src="load_train.js"></script>
+        <script type="text/javascript" src="format.js"></script>
+        <script type="text/javascript" src="log.js"></script>
+        <script type="text/javascript" src="index.js"></script>
+    </body>
+</html>
