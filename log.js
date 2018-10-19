@@ -35,14 +35,14 @@ var trainChartData = {
         yAxisID: 'y-axis-2'
     },
     {
-        label: 'Validation loss',
+        label: 'Test loss',
         borderColor: window.chartColors.orange,
         backgroundColor: window.chartColors.orange,
         fill: false,
         data: [0],
         yAxisID: 'y-axis-1',
     }, {
-        label: 'Validation accuracy',
+        label: 'Test accuracy',
         borderColor: window.chartColors.purple,
         backgroundColor: window.chartColors.purple,
         fill: false,
@@ -56,21 +56,23 @@ var trainChartData = {
 
 function logTrainData(logs, idx) {
     if (idx % ui.get_record_loss() == 0) {
-        trainLog(`Training: ${("    " + idx).substr(-4)}` +
-            ` Loss: ${("    " + logs.loss.toFixed(2)).substr(-5)}` +
-            ` Accuracty: ${100 * logs.acc.toFixed(2)}%`);
+        
         trainChartData.labels.push(idx);
         let ds = trainChartData.datasets;
         ds[0].data.push(logs.loss);
         ds[1].data.push(logs.acc*100);
         if (logs.val_loss !== undefined) {
             ds[2].data.push(logs.val_loss);
-            ds[3].data.push(logs.val_acc);
+            ds[3].data.push(logs.val_acc*100);
         } else {
-            ds[2].data.push(ds[2].data[ds[2].data.length-1]);
-            ds[3].data.push(ds[3].data[ds[3].data.length - 1]);
+            logs.val_loss = ds[2].data.push(ds[2].data[ds[2].data.length -1]);
+            logs.val_acc = ds[3].data.push(ds[3].data[ds[3].data.length -1])/100;
         }
-        
+        trainLog(`Training: ${("    " + idx).substr(-4)}` +
+            ` Loss: ${("    " + logs.loss.toFixed(2)).substr(-5)}` +
+            ` Acc: ${(100 * logs.acc).toFixed(2)}%` +
+            ` Test Loss: ${("    " + logs.val_loss.toFixed(2)).substr(-5)}` +
+            ` Test Acc: ${(100 * logs.val_acc).toFixed(2)}%`);
         window.trainLines.update();
     }
 

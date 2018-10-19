@@ -34,14 +34,9 @@
         <hr>
         <div style="display: grid; grid-template-columns: 600px 410px; grid-gap: 10px;">
             <div>
-                <h3>Save model</h3>
-                <input id="save_model_name" value="chess-model-1"><button id="saveModel()">Save model</button><br>
-            </div>
-            <div>
-                <h3>Load model</h3>
-                Model JSON:<input name="json-upload" type="file" /><br>
-                Model Weights:<input name="weights-upload" type="file" /><br>
-                <button id="loadModel()">Load model</button><br>
+                <h3>Save/Load model</h3>
+                Model name: <input id="save_model_name" value="chess-model-1"><br><br>
+                <button onclick="saveModel()">Save model⬇</button> --------- <button onclick="loadModel()">Load model⬆</button><br>
             </div>
         </div>
         <hr>
@@ -70,16 +65,16 @@
                         <input type="text" id="batch_size" value="50"><br>
                     </div>
                     <div>
-                        EPOCHS:
+                        Train batches:
                     </div>
                     <div> 
-                        <input type="text" id="epochs" value="20"><br>
+                        <input type="text" id="train_batches" value="20"><br>
                     </div>
                     <div>
-                        Training examples:
+                        Test examples:
                     </div>
                     <div>
-                        <input type="text" id="examples" value="2000"><br>
+                        <input type="text" id="test_examples" value="100"><br>
                     </div>
                     <div>
                         Validation examples:
@@ -97,10 +92,15 @@
             </div>
         </div>
         <hr>
+        <h1>Predict</h1>
+        Board: <input type="text" id="boardToPredict" style="width:600px" value="rnbqkbnr/pppppppp/11111111/11111111/11111111/11111111/PPPPPPPP/RNBQKBNR w KQkq - 0 1"><br>
+        <button onclick="predict()">Predict</button>
+        <h3>Prediction: <span id="prediction"></span></h3>
         <script type="text/javascript" src="ui.js"></script>
         <script type="text/javascript" src="labels.js"></script>
-        <script type="text/javascript" src="load_train.js"></script>
-        <script type="text/javascript" src="format.js"></script>
+        <script type="text/javascript" src="boardstate.js"></script>
+        <script type="text/javascript" src="chessdata.js"></script>
+        <script type="text/javascript" src="model.js"></script>
         <script type="text/javascript" src="log.js"></script>
         <script type="text/javascript" src="index.js"></script>
     </body>
