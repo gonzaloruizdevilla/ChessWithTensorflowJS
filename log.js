@@ -55,19 +55,21 @@ var trainChartData = {
 
 
 function logTrainData(logs, idx) {
+    
     if (idx % ui.get_record_loss() == 0) {
         
         trainChartData.labels.push(idx);
         let ds = trainChartData.datasets;
         ds[0].data.push(logs.loss);
         ds[1].data.push(logs.acc*100);
-        if (logs.val_loss !== undefined) {
-            ds[2].data.push(logs.val_loss);
-            ds[3].data.push(logs.val_acc*100);
-        } else {
-            logs.val_loss = ds[2].data.push(ds[2].data[ds[2].data.length -1]);
-            logs.val_acc = ds[3].data.push(ds[3].data[ds[3].data.length -1])/100;
+        if (logs.val_loss === undefined) {
+            logs.val_loss = ds[2].data[ds[2].data.length - 1];
         }
+        if (logs.val_acc === undefined) {
+            logs.val_acc = ds[3].data[ds[3].data.length - 1] / 100;
+        }
+        ds[2].data.push(logs.val_loss);
+        ds[3].data.push(logs.val_acc * 100);
         trainLog(`Training: ${("    " + idx).substr(-4)}` +
             ` Loss: ${("    " + logs.loss.toFixed(2)).substr(-5)}` +
             ` Acc: ${(100 * logs.acc).toFixed(2)}%` +

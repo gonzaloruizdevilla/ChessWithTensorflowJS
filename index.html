@@ -26,9 +26,8 @@
             const LABEL_SIZE = 6100
             const FILTERS = 128
             const HIDDEN = 512;
-            //NUM_STEPS = 150001
             const NUM_STEPS = 10;
-            const LEARNING_RATE = 0.05;
+            const LEARNING_RATE = 0.01;
         </script>
         
         <hr>
@@ -68,7 +67,7 @@
                         Train batches:
                     </div>
                     <div> 
-                        <input type="text" id="train_batches" value="20"><br>
+                        <input type="text" id="train_batches" value="2000"><br>
                     </div>
                     <div>
                         Test examples:
@@ -86,7 +85,7 @@
                         Record loss every #batches:
                     </div>
                     <div>
-                        <input type="text" id="record_loss" value="10"><br>
+                        <input type="text" id="record_loss" value="100"><br>
                     </div>
                 </div>
             </div>

@@ -55,13 +55,13 @@ async function train() {
 async function predict() {
     
     let board = document.getElementById("boardToPredict").value;
-    console.log(board);
+    
     let prediction = predictBoard(model, board);
     let data = await prediction.data();
     let validMoves = ["Rfd8","Nd3","Rad8","Rxd4","Rd1","Nxe4","Kg1","Qc6","Qf4","Qb7","Qxf7+","Kh8","Qe8+","Qf7+","Kh6","Ng4+","Kg5","h4+","Kh5","Qxh7#","Bb2","Nxe5","Ke7","Nd2","Ndf3","Ng6+","Nxh8"];
     data = data.map((v,idx) => validMoves.indexOf(labels[idx])==-1?0:v);
     let moveIdx = (await tf.argMax(data).data())
-    console.log(data)
+    
     document.getElementById("prediction").innerText = labels[moveIdx];
     
 }

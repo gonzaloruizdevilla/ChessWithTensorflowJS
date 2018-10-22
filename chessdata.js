@@ -18,8 +18,27 @@ class ChessData {
             "data_train/lightning.pgn-7000.txt",
             "data_train/lightning.pgn-8000.txt",
             "data_train/lightning.pgn-9000.txt",
-            "data_train/lightning.pgn-10000.txt"];
-        this.valid_files = ["data_validation/standar.pgn-1000.txt"];
+            "data_train/lightning.pgn-10000.txt",
+            "data_train/blitzz.pgn-2000.txt",
+            "data_train/blitzz.pgn-3000.txt",
+            "data_train/blitzz.pgn-4000.txt",
+            "data_train/blitzz.pgn-5000.txt",
+            "data_train/blitzz.pgn-6000.txt",
+            "data_train/blitzz.pgn-7000.txt",
+            "data_train/blitzz.pgn-8000.txt",
+            "data_train/blitzz.pgn-9000.txt",
+            "data_train/blitzz.pgn-10000.txt",
+            "data_train/blitzz.pgn-11000.txt",
+            "data_train/blitzz.pgn-12000.txt",
+            "data_train/blitzz.pgn-13000.txt",
+            "data_train/blitzz.pgn-14000.txt",
+            "data_train/blitzz.pgn-15000.txt"
+        ];
+        this.valid_files = [
+            "data_validation/standar.pgn-1000.txt",
+            "data_validation/lightning.pgn-1000.txt",
+            "data_validation/blitzz.pgn-1000.txt"
+        ];
         this.log = logFn || (m => console.log(m));
         this.shuffledTrainIndex = 0;
         this.shuffledTestIndex = 0;

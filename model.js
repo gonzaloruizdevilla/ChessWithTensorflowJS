@@ -49,7 +49,7 @@ function createModel() {
 
 
 function compile(model){
-    const optimizer = tf.train.sgd(LEARNING_RATE);
+    const optimizer = tf.train.adam(0.01);
     model.compile({
         optimizer: optimizer,
         loss: 'categoricalCrossentropy',
@@ -64,13 +64,26 @@ async function loadModelByName(modelName) {
     let metrics = await (await fetch(`http://127.0.0.1:8080/models/${modelName}.stats.json`)).json()
 
     trainBatch = metrics.trainBatch;
-    trainChartData.datasets[0].data = metrics.trainLoss;
-    trainChartData.datasets[1].data = metrics.trainAcc;
-    trainChartData.datasets[2].data = metrics.testLoss;
-    trainChartData.datasets[3].data = metrics.testAcc;
-    trainChartData.labels = metrics.trainLoss.map((v, ix) => ix * 10)
+    try {
+        if (metrics.trainLoss && metrics.trainAcc && metrics.testLoss && metrics.testAcc && trainChartData.labels &&
+            metrics.trainLoss.length == metrics.trainAcc.length &&
+            metrics.trainLoss.length == metrics.testLoss.length &&
+            metrics.trainLoss.length == metrics.testAcc.length &&
+            metrics.trainLoss.length == metrics.labels.length 
+            ){
+            trainChartData.datasets[0].data = metrics.trainLoss;
+            trainChartData.datasets[1].data = metrics.trainAcc;
+            trainChartData.datasets[2].data = metrics.testLoss;
+            trainChartData.datasets[3].data = metrics.testAcc;
+            trainChartData.labels = metrics.labels;
+        } else {
+            throw "Bad data in JSON file";
+        }
+    } catch (ex) {
+        trainLog(`Metrics couldn't be loaded: ${ex}`  );
+    }
 
-    console.log(model)
+    
     compile(model)
     trainLog("Model loaded(" + (new Date()) + ")");
     return model;
@@ -84,7 +97,8 @@ async function saveModelByName(modelName) {
         trainLoss: trainChartData.datasets[0].data,
         trainAcc: trainChartData.datasets[1].data,
         testLoss: trainChartData.datasets[2].data,
-        testAcc: trainChartData.datasets[3].data
+        testAcc: trainChartData.datasets[3].data,
+        labels: trainChartData.labels
     }
     const filename = modelName + ".stats.json";
 
@@ -166,7 +180,6 @@ async function trainModel(model, data) {
 
 function predictBoard(model, board){
     var state = getBoardState(board);
-    console.log(state.length)
     const xs = tf.tensor4d(state, [1, IMAGE_SIZE, IMAGE_SIZE, FEATURE_PLANES]);
     return model.predict(xs)
 }
